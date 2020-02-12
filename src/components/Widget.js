@@ -22,13 +22,14 @@ export default class Widget extends Component {
 
     countPositiveFeedbackPercentage = () => {
         const total = this.countTotalFeedback();
-        return this.state.good/total;
+        return Math.round(this.state.good/total*100);
     }
  
 
     render() {
         const total = this.countTotalFeedback();
-        const positivePercentage = this.countPositiveFeedbackPercentage()
+        const positivePercentage = this.countPositiveFeedbackPercentage();
+        const { good, neutral, bad } = this.state;
         return (
             <div>
                 <h1>Please leave feedback</h1>
@@ -37,11 +38,11 @@ export default class Widget extends Component {
                 <Button title='Bad' onChangeStatistics={() => this.handleChangeStatistics('bad')} />
                 <h2>Statistics</h2>
                 <ul>
-                    <li>Good: <span>{this.state.good}</span></li>
-                    <li>Neutral: <span>{this.state.neutral}</span></li>
-                    <li>Bad: <span>{this.state.bad}</span></li>
+                    <li>Good: <span>{good}</span></li>
+                    <li>Neutral: <span>{neutral}</span></li>
+                    <li>Bad: <span>{bad}</span></li>
                     <li>Total: <span>{total}</span></li>
-                    <li>Positive Feedback: <span>{positivePercentage}</span></li>
+                    {good > 0 && (<li>Positive Feedback: <span>{positivePercentage}%</span></li>)}                    
                 </ul>         
             </div>
         )        
