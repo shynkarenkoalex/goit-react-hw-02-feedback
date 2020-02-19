@@ -3,6 +3,7 @@ import Statistics from './Statistics';
 import FeedbackOptions from './FeedbackOptions';
 import Section from './Section';
 import Layout from './Layout';
+import Notification from './Notification';
 
 export default class App extends Component {
 
@@ -20,7 +21,7 @@ export default class App extends Component {
 
   countTotalFeedback = () => this.state.good + this.state.neutral + this.state.bad;
 
-  isFeedbackValue = () => this.state.good || this.state.neutral || this.state.bad;
+  isFeedbackValue = () => Boolean(this.state.good || this.state.neutral || this.state.bad);
 
   countPositiveFeedbackPercentage = () => {
       const total = this.countTotalFeedback();
@@ -33,14 +34,16 @@ export default class App extends Component {
     const total = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
     const keys = Object.keys(this.state);
-    const isFeedbackValue = isFeedbackValue();
+    const feedbackVisible = this.isFeedbackValue();
     return (
       <Layout>
-        <Section title = 'Statistics'>
+        <Section title = 'Please leave feedback'>
           <FeedbackOptions options={keys} onLeaveFeedback={this.handleChangeStatistics}/>
         </Section>
-        <Section title = 'Please leave feedback'>
-          <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage}/>
+        <Section title = 'Statistics'>
+          {feedbackVisible ? 
+          <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} /> :
+          <Notification message = 'No feedback given' />}
         </Section>
       </Layout>      
           
