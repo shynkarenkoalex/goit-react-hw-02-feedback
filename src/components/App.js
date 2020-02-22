@@ -19,34 +19,30 @@ export default class App extends Component {
       )
   };
 
-  countTotalFeedback = () => this.state.good + this.state.neutral + this.state.bad;
+  countTotalFeedback = () => Object.values(this.state).reduce((sum, current) => sum + current, 0);
 
   isFeedbackValue = () => Boolean(this.state.good || this.state.neutral || this.state.bad);
 
-  countPositiveFeedbackPercentage = () => {
-      const total = this.countTotalFeedback();
-      return Math.round(this.state.good/total*100);
-  };
+  countPositiveFeedbackPercentage = (totalValue, positivValue) =>  Math.round(positivValue/totalValue*100);
  
 
   render() {
-    const { good, neutral, bad } = this.state;
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
-    const keys = Object.keys(this.state);
+    const { good, neutral, bad } = this.state;    
+    const feedBackName = Object.keys(this.state);    
     const feedbackVisible = this.isFeedbackValue();
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage(total, this.state.good);
     return (
       <Layout>
         <Section title = 'Please leave feedback'>
-          <FeedbackOptions options={keys} onLeaveFeedback={this.handleChangeStatistics}/>
+          <FeedbackOptions options={feedBackName} onLeaveFeedback={this.handleChangeStatistics}/>
         </Section>
         <Section title = 'Statistics'>
           {feedbackVisible ? 
           <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} /> :
           <Notification message = 'No feedback given' />}
         </Section>
-      </Layout>      
-          
+      </Layout>
     )        
   }
 }
