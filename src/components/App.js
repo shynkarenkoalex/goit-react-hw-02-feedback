@@ -13,7 +13,10 @@ export default class App extends Component {
   };
 
   handleChangeStatistics = type => {
+    // console.log(type);
+    // console.log(this.state);
     this.setState(preventState => ({ [type]: preventState[type] + 1 }));
+    // console.log(this.countTotalFeedback());
   };
 
   countTotalFeedback = () =>
@@ -39,7 +42,7 @@ export default class App extends Component {
           />
         </Section>
         <Section title="Statistics">
-          {this.countTotalFeedback > 0 ? (
+          {this.countTotalFeedback() > 0 ? (
             <Statistics
               good={good}
               neutral={neutral}
