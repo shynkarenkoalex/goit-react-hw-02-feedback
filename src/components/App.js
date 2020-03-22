@@ -13,10 +13,7 @@ export default class App extends Component {
   };
 
   handleChangeStatistics = type => {
-    // console.log(type);
-    // console.log(this.state);
     this.setState(preventState => ({ [type]: preventState[type] + 1 }));
-    // console.log(this.countTotalFeedback());
   };
 
   countTotalFeedback = () =>
